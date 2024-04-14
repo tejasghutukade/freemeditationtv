@@ -8,7 +8,10 @@ on:
 
 permissions:
   contents: read
-  pages: write
+  pages: write  
+  pull-requests: write
+  issues: write
+  repository-projects: write
 
 jobs:
   build-and-deploy:
