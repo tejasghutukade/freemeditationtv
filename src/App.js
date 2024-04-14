@@ -8,6 +8,7 @@ import Meditateathome from './components/Meditateathome';
 import Footer from './components/Footer';
 
 function App() {
+  console.log('process.env.REACT_APP_BASENAME', process.env.REACT_APP_BASENAME);
   return (
     <div className="App">
       <Router basename={process.env.REACT_APP_BASENAME || '/'}>
