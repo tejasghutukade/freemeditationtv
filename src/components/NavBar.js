@@ -20,7 +20,7 @@ const NavBar = (props) => {
     return (
       <nav style={{ backgroundColor: '#5d5d5d' }} className="px-4 py-2 shadow-md">
           <div className="mx-auto flex justify-between items-center md:px-4 md:py-2 md:shadow-md md:flex md:justify-center md:items-center">
-              <img src="freemeditationtv_logo.png" alt="Logo" className="mr-2 w-10 h-10" />
+              <img src={`${process.env.PUBLIC_URL}/freemeditationtv_logo.png`} alt="Logo" className="mr-2 w-10 h-10" />
               <div className="md:hidden">
                   <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
                       {/* Hamburger Icon */}
