@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename={process.env.REACT_APP_BASENAME || '/'}>
         <NavBar/>
         <Routes>
         <Route path="/" element={<MainContent              
