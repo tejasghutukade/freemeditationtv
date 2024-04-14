@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 const NavBar = (props) => {
     const location = useLocation();
@@ -34,18 +34,31 @@ const NavBar = (props) => {
                   isMenuOpen ? 'block' : 'hidden'
               } md:block md:flex md:justify-center md:items-center w-full md:w-auto`}>
                   {menuItems.map((item, index) => (
-                      <li
-                          key={index}
-                          style={location.pathname === item.url ? { backgroundColor: '#7b7b7b' } : {}}
-                          className='md:px-4 md:py-2 rounded-md hover:bg-gray-700 md:hover:bg-transparent md:border-0 text-white block md:inline-block'
-                      >
-                          <a
-                              href={item.url}
-                              target={item.target}
-                          >
-                              {item.name}
-                          </a>
-                      </li>
+                    item.target === '_blank' ? (
+                        <li
+                        key={index}
+                        style={location.pathname === item.url ? { backgroundColor: '#7b7b7b' } : {}}
+                        className='md:px-4 md:py-2 rounded-md hover:bg-gray-700 md:hover:bg-transparent md:border-0 text-white block md:inline-block'
+                    >
+                        <a
+                            href={item.url}
+                            target={item.target}
+                        >
+                            {item.name}
+                        </a>
+                    </li>
+                    ) :  (
+                        <li
+                        key={index}
+                        style={location.pathname === item.url ? { backgroundColor: '#7b7b7b' } : {}}
+                        className='md:px-4 md:py-2 rounded-md hover:bg-gray-700 md:hover:bg-transparent md:border-0 text-white block md:inline-block'
+                    >
+                        <Link to={item.url}>
+                            {item.name}
+                        </Link>
+                    </li>
+                    )
+                     
                   ))}
               </ul>
               }
