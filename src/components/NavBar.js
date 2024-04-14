@@ -68,7 +68,8 @@ const NavBar = (props) => {
           {isMenuOpen && (
               <ul className="flex flex-col md:hidden w-full bg-gray-600">
                   {menuItems.map((item, index) => (
-                      <li
+                     item.target === '_blank' ? (
+                        <li
                           key={index}
                           style={location.pathname === item.url ? { backgroundColor: '#7b7b7b' } : {}}
                           className='px-4 py-2 hover:bg-gray-700 text-white'
@@ -80,6 +81,18 @@ const NavBar = (props) => {
                               {item.name}
                           </a>
                       </li>
+                     ):(
+                        <li
+                          key={index}
+                          style={location.pathname === item.url ? { backgroundColor: '#7b7b7b' } : {}}
+                          className='px-4 py-2 hover:bg-gray-700 text-white'
+                      >
+                          <Link to={item.url}>
+                            {item.name}
+                            </Link>
+                      </li>     
+                     )
+                      
                   ))}
               </ul>
           )}
