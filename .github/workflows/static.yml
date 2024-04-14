@@ -24,6 +24,7 @@ jobs:
         env:
           CI: true
           REACT_APP_BASENAME: /freemeditationtv
+          PUBLIC_URL: https://tejasghutukade.github.io/freemeditationtv
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
