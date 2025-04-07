@@ -15,7 +15,16 @@ app.use((req, res, next) => {
   // Referrer policy
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   // Content Security Policy
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';");
+  res.setHeader('Content-Security-Policy', 
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://www.youtube.com https://*.googleapis.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "img-src 'self' data: https://*.ytimg.com https://*.youtube.com https://i.ytimg.com; " +
+    "frame-src 'self' https://www.youtube.com https://youtube.com; " +
+    "connect-src 'self' https://*.youtube.com https://*.googleapis.com https://api.rss2json.com; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "media-src 'self' https://*.youtube.com;"
+  );
   next();
 });
 
