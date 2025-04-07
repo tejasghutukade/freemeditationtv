@@ -6,32 +6,51 @@ const MainComponent = ({ videos }) => {
   const [latestVideoId, setLatestVideoId] = useState('https://www.youtube.com/embed/r9D-LGl51cM');
 
   const getLatestVideo = async () => {
-    const cid = "UC1s6Xs4OboEjVN5gPz2ldwQ";
-    const channelURL = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${cid}`)
-    const reqURL = `https://api.rss2json.com/v1/api.json?api_key=nk3iox7gnvybbyvvgotcxqz2s3vap4wxqbbge3a4&rss_url=${channelURL}`;
+    try {
+      const cid = "UC1s6Xs4OboEjVN5gPz2ldwQ";
+      const channelURL = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${cid}`)
+      const reqURL = `https://api.rss2json.com/v1/api.json?api_key=nk3iox7gnvybbyvvgotcxqz2s3vap4wxqbbge3a4&rss_url=${channelURL}`;
 
-    const response = await axios.get(reqURL);
-    
-    let shortVideos = await getShortsList();
-
+      console.log('Fetching latest video from:', reqURL);
+      const response = await axios.get(reqURL);
+      console.log('RSS2JSON API response:', response.data);
+      
+      let shortVideos = [];
+      try {
+        shortVideos = await getShortsList();
+        console.log('Shorts list:', shortVideos);
+      } catch (shortsError) {
+        console.error('Error fetching shorts list:', shortsError);
+        // Continue with empty shorts list
+      }
   
-    const youtubeVideos = response.data.items;
-    const firstNonShortVideo = youtubeVideos.find(video => !shortVideos.includes(video.link.substr(video.link.indexOf("=") + 1)));
-    const latestVideo_Id = firstNonShortVideo.link.substr(firstNonShortVideo.link.indexOf("=") + 1);   
-    console.log(latestVideo_Id); 
-    return latestVideo_Id;
+      const youtubeVideos = response.data.items;
+      const firstNonShortVideo = youtubeVideos.find(video => !shortVideos.includes(video.link.substr(video.link.indexOf("=") + 1)));
+      const latestVideo_Id = firstNonShortVideo.link.substr(firstNonShortVideo.link.indexOf("=") + 1);   
+      console.log('Latest video ID:', latestVideo_Id); 
+      return latestVideo_Id;
+    } catch (error) {
+      console.error('Error in getLatestVideo:', error);
+      // Return a default video ID in case of error
+      return 'r9D-LGl51cM';
+    }
   };
 
   const getShortsList = async () => {
-
-    const reqURL = `https://yt.lemnoslife.com/channels?part=shorts&id=UC1s6Xs4OboEjVN5gPz2ldwQ`;
-
-    const response = await axios.get(reqURL);    
-    
-    const shorts = response.data.items[0].shorts;
-    const videoIds = await shorts.map(short => short.videoId);
-    return videoIds;    
-
+    try {
+      const reqURL = `https://yt.lemnoslife.com/channels?part=shorts&id=UC1s6Xs4OboEjVN5gPz2ldwQ`;
+      console.log('Fetching shorts from:', reqURL);
+      
+      const response = await axios.get(reqURL);    
+      console.log('Shorts API response:', response.data);
+      
+      const shorts = response.data.items[0].shorts;
+      const videoIds = await shorts.map(short => short.videoId);
+      return videoIds;    
+    } catch (error) {
+      console.error('Error in getShortsList:', error);
+      throw error; // Re-throw to handle in getLatestVideo
+    }
   }
 
     useEffect(() => {

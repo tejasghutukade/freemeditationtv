@@ -33,10 +33,9 @@ const videos = [ {
 }];
 
 function App() {
-  console.log('process.env.REACT_APP_BASENAME', process.env.REACT_APP_BASENAME);
   return (
     <div className="App">
-      <Router basename={process.env.REACT_APP_BASENAME || '/'}>
+      <Router basename="/">
         <NavBar/>
         <Routes>
         <Route path="/" element={<MainContent              
@@ -52,7 +51,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;

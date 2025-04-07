@@ -2,11 +2,13 @@
   "name": "freemeditationtv",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://freemeditationtv.com",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "express": "^4.21.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
@@ -15,9 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "PUBLIC_URL=$PUBLIC_URL react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy:cloudrun": "./deploy-cloudrun.sh"
   },
   "eslintConfig": {
     "extends": [
