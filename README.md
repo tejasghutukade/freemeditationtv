@@ -1,3 +1,24 @@
+# Free Meditation TV
+
+![Deploy to Cloud Run](https://github.com/tejasghutukade/freemeditationtv/actions/workflows/deploy.yml/badge.svg)
+
+A React-based web application for meditation content, deployed on Google Cloud Run.
+
+## Deployment
+
+This application is automatically deployed to Cloud Run when changes are pushed to the main branch.
+
+## Local Development
+
+To run the application locally:
+
+```bash
+npm install
+npm start
+```
+
+The application will be available at http://localhost:3000
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
