@@ -1,0 +1,56 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build
+        env:
+          CI: false
+
+      - name: Google Auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and Push Container
+        run: |
+          gcloud auth configure-docker
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/freemeditationtv:${{ github.sha }} .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/freemeditationtv:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: freemeditationtv
+          region: us-central1
+          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/freemeditationtv:${{ github.sha }}
+          flags: --allow-unauthenticated 
